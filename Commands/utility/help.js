@@ -1,7 +1,7 @@
 module.exports = {
     name: "help",
     aliases: "h",
-    code: ` $title[¦ Evobot Help Page]
+    code: ` $title[¦ GMKU Help Page]
     $footer[$username[$clientid];$useravatar[$clientid]]
     $description[
     \`\`\`
@@ -19,7 +19,6 @@ module.exports = {
     $getservervar[prefix]tempmute ¦ Temporarily mute a user.
     $getservervar[prefix]warn ¦ Warn a user.
     $getservervar[prefix]infractions ¦ Check user infractions.
-    $getservervar[prefix]slowmode ¦ Set the current channel’s slowmode.
     $getservervar[prefix]clear ¦ Clear messages.
     $getservervar[prefix]tempban ¦ Temporarily ban a user.
     $getservervar[prefix]clearwarns ¦ Clear user's warnings.
@@ -28,14 +27,20 @@ module.exports = {
     $getservervar[prefix]temprole ¦ Temporarily role a user.
     $getservervar[prefix]prefix ¦ Change my prefix.\`\`\`
     
-    <:fun:896761813251809280> ¦ Fun\`\`\`
+    <:leveling:896951309809365024> ¦ leveling\`\`\`
     $getservervar[prefix]set-levelling ¦ Enable level system.
+    $getservervar[prefix]set-card ¦ Set the rank background.
+    $getservervar[prefix]level-message ¦ make a level up message!
+    $getservervar[prefix]level-role ¦ set a level role.
+    $getservervar[prefix]rank ¦ show your rank our someones.
+    $getservervar[prefix]set-rank ¦ set your rank.\`\`\`
+
+    <:fun:896761813251809280> ¦ Fun\`\`\`
     $getservervar[prefix]guess ¦ Play guess the number.
     $getservervar[prefix]level-role ¦ Set the level role.
     $getservervar[prefix]level-message ¦ Set level message.
     $getservervar[prefix]rank ¦ Check your rank.
     $getservervar[prefix]quote ¦ Quote a message.
-    $getservervar[prefix]set-card ¦ Set the rank background.
     $getservervar[prefix]editsnipe ¦  ¦ Check edited messages.
     $getservervar[prefix]snipe ¦ Snipe recently deleted messages.
     $getservervar[prefix]addemoji ¦ Add an emoji.
@@ -57,8 +62,9 @@ module.exports = {
     $getservervar[prefix]nowplaying
     $getservervar[prefix]loop ¦ Loop a song
     $getservervar[prefix]resume ¦ Resume to a song.
-    $getservervar[prefix]pause ¦ Pause a song.\`\`\`]
+    $getservervar[prefix]pause ¦ Pause a song.\`\`\`
+    
+    <:Evobotpremium:896959462965915678> 🌟 premium 🌟¦ \`\`\`
+    $getServerVar[prefix]redeem ¦ redeem your premium after boosting.\`\`\`]
     $color[50021B]
     $thumbnail[$useravatar[$clientid]]`}
-    
-    
