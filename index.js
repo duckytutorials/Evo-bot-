@@ -24,7 +24,7 @@ const Discord = require("discord.js");
 
 const bot = new Aoijs.Bot({
 
-    token:"", 
+    token:"ODQwODE0NTk2NzQ1ODU0OTk2.YJdrnQ.w71gjdoT7pOl4JGY4uFlh8103R4", 
 
     prefix:['$getservervar[prefix]','$getglobaluservar[up]'],
 fetchInvites: true
@@ -50,21 +50,21 @@ respondToBots:false// commands will work in dms. set "true" for commands to work
 
 
 bot.status({
-  text: "status",
+  text: "Cat Bois",
    status: "online",
   type: "WATCHING",
   time: 12
 })
 
 bot.status({
-  text: "status",
+  text: "protecting Cat Bois",
    status: "online",
   type: "WATCHING",
   time: 12
 })
 
 bot.status({
-  text: "status 1",
+  text: "PROTECTING Fake Marshmello",
    status: "online",
   type: "PLAYING",
   time: 12
@@ -182,8 +182,8 @@ $setUserVar[premium;true;$authorID]
 $setTimeout[30d;
 userID: $authorID]
 $onlyIf[$getUserVar[premium;$authorID]==false;**⛔ You have already redeemed your perk**]
- $onlyIf[$hasRole[$authorID;ROLE ID]==true;{description:**⛔ You aren't a \`booster\` in my** [support server](https://discord.gg/yfD2Vmnr6F)}{color:RED}]
- $onlyForServers[YOUR GUILD ID;{description:**⛔ You can use this command only in my** [support server](https://discord.gg/yfD2Vmnr6F)}{color:RED}]`
+ $onlyIf[$hasRole[$authorID;895571470321872906]==true;{description:**⛔ You aren't a \`booster\` in my** [support server](https://discord.gg/KApkv5q5mM)}{color:RED}]
+ $onlyForServers[895560577055883265;{description:**⛔ You can use this command only in my** [support server](https://discord.gg/KApkv5q5mM)}{color:RED}]`
 })
  
 bot.timeoutCommand({
