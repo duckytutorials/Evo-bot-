@@ -24,7 +24,7 @@ const Discord = require("discord.js");
 
 const bot = new Aoijs.Bot({
 
-    token:"ODk2MzAzOTQ3MzExMTA0MDQx.YWFKGQ.vbjkwuqHw7SO141UpJCO3lDrqPU", 
+    token:"", 
 
     prefix:['$getservervar[prefix]','$getglobaluservar[up]'],
 fetchInvites: true
@@ -50,12 +50,25 @@ respondToBots:false// commands will work in dms. set "true" for commands to work
 
 
 bot.status({
-  text: "$getServerVar[prefix]help in $servercount servers and listening to $allmemberscount members",
+  text: "status",
    status: "online",
-  type: "PLAYING",
-  time: 1
+  type: "WATCHING",
+  time: 12
 })
 
+bot.status({
+  text: "status",
+   status: "online",
+  type: "WATCHING",
+  time: 12
+})
+
+bot.status({
+  text: "status 1",
+   status: "online",
+  type: "PLAYING",
+  time: 12
+})
 
 bot.command({
     name: "guess",
@@ -160,9 +173,30 @@ my prefix is **getServerVar[prefix]** getServerVar[prefix]help for all my comman
  
 })
 
+bot.command({
+ name: "redeem", 
+ code:  `$author[$username[$authorID]#$discriminator[$authorID];$authorAvatar]
+ $description[**$customEmoji[success] Success:** <@$authorID> You've claimed premium perks for 1 month]
+ $color[GREEN]
+$setUserVar[premium;true;$authorID]
+$setTimeout[30d;
+userID: $authorID]
+$onlyIf[$getUserVar[premium;$authorID]==false;**⛔ You have already redeemed your perk**]
+ $onlyIf[$hasRole[$authorID;ROLE ID]==true;{description:**⛔ You aren't a \`booster\` in my** [support server](https://discord.gg/yfD2Vmnr6F)}{color:RED}]
+ $onlyForServers[YOUR GUILD ID;{description:**⛔ You can use this command only in my** [support server](https://discord.gg/yfD2Vmnr6F)}{color:RED}]`
+})
+ 
+bot.timeoutCommand({
+ code: `
+ $sendDM[$timeoutData[userID];Your premium has just run out!]
+ $setUserVar[premium;false;$timeoutData[userID]]`
+})
 
-
-
+bot.command({
+    name: "ping",
+    code: `**Pinging...**
+$editIn[1s;**Bot Ping - \`$ping\` ms**]`
+})
 
 
 
@@ -232,8 +266,8 @@ guess: "0",
 msg: "0",
     yes: "✅",
     join: "",
-    up: ">",
-    prefix: ">",
+    up: ".+",
+    prefix: ".+",
     wtitle: "",
   wmsg: "",
   wimg: "",
@@ -276,7 +310,8 @@ antilink: "false",
     giveawayparticipants: "",
     giveawayisfinished: "false",
     giveawayisgiveaway: "false",
-    testid1: ""
+    testid1: "",
+    premium: "false"
 });
 
 
@@ -634,22 +669,6 @@ $argsCheck[>1;❌ incorrect usage
 ✅ correct usage: tempban @user/ID <time(example: 5m)> <optional reason>]
 $onlyBotPerms[ban;I need \`Ban\` permission]
 $onlyPerms[ban;you need \`Ban\` permission]`
-})
-bot.command({
-  name: "slowmode",
-  aliases: "sm",
-  code: `$author[$userTag[$authorID];$authorAvatar]
-  $title[successfully changed the slowmode duration to $replaceText[$replaceText[$replaceText[$toUppercase[$message[1]];S; Seconds];M; Minutes];H; Hours]]
-  $addTimestamp
-  $color[RANDOM]
-  $slowmode[$replaceText[$replaceText[$checkCondition[$message[2]==];true;$channelID];false;$findChannel[$message[2]]];$message[1]]
-  $onlyIf[$checkContains[$message[1];-]==false;you can't put negative numbers bruh]
-  $argsCheck[>1;❌ incorrect usage
- 
-✅ correct usage: slowmode <time(example: 5m)> <(optional)#channel/ID>]
-  $onlyPerms[managechannels;you need \`Manage channels\` permission]
-  $onlyBotPerms[managechannels;I need \`Manage channels\` permission]
-  $suppressErrors[channel not found]`
 })
 bot.command({
   name: "clear",
