@@ -24,9 +24,9 @@ const Discord = require("discord.js");
 
 const bot = new Aoijs.Bot({
 
-    token:"ODQwODE0NTk2NzQ1ODU0OTk2.YJdrnQ.w71gjdoT7pOl4JGY4uFlh8103R4", 
+    token:"TOKEN", #paste your token here
 
-    prefix:['$getservervar[prefix]','$getglobaluservar[up]'],
+    prefix:['$getservervar[prefix]','$getglobaluservar[up]'], #change the prefix in line 270
 fetchInvites: true
     
 })
@@ -50,21 +50,21 @@ respondToBots:false// commands will work in dms. set "true" for commands to work
 
 
 bot.status({
-  text: "Cat Bois",
+  text: "status 1",
    status: "online",
   type: "WATCHING",
   time: 12
 })
 
 bot.status({
-  text: "protecting Cat Bois",
+  text: "status 2",
    status: "online",
   type: "WATCHING",
   time: 12
 })
 
 bot.status({
-  text: "PROTECTING Fake Marshmello",
+  text: "status 3",
    status: "online",
   type: "PLAYING",
   time: 12
