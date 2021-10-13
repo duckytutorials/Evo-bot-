@@ -64,7 +64,7 @@ module.exports = {
     $getservervar[prefix]resume ¦ Resume to a song.
     $getservervar[prefix]pause ¦ Pause a song.\`\`\`
     
-    <:Evobotpremium:896959462965915678> 🌟 premium 🌟¦ \`\`\`
+    <:Evobotpremium:896959462965915678> ¦ 🌟 premium 🌟 \`\`\`
     $getServerVar[prefix]redeem ¦ redeem your premium after boosting.\`\`\`]
     $color[50021B]
     $thumbnail[$useravatar[$clientid]]`}
