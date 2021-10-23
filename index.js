@@ -192,12 +192,6 @@ bot.timeoutCommand({
  $setUserVar[premium;false;$timeoutData[userID]]`
 })
 
-bot.command({
-    name: "ping",
-    code: `**Pinging...**
-$editIn[1s;**Bot Ping - \`$ping\` ms**]`
-})
-
 
 
 
@@ -290,7 +284,7 @@ levelling:"true",
   level_roles:"",
   level_order:"",
   exp:"0",
-  level_card:"https://wallpapercave.com/wp/wp2704825.jpg",
+  level_card:"https://media.discordapp.net/attachments/901046126671691816/901047335671459881/Photo_1633692466619.jpg?width=473&height=473",
   level_msges:"",
   level_morder:"",
   req:"100",
