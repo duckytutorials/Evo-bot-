@@ -192,7 +192,131 @@ bot.timeoutCommand({
  $setUserVar[premium;false;$timeoutData[userID]]`
 })
 
+bot.joinCommand({
+  channel: "$getServerVar[verifchannel]",
+  code: `
+  <@$authorID>
+  $title[:white_check_mark:VERIFICATION]
+  $description[Verify Your Self To Access This Server
+  With Send **$getUserVar[code]** At This Channel]
+  $image[https://textoverimage.moesif.com/image?image_url=https%3A%2F%2Fi.imgur.com%2FOrxlL0R.jpg&text=$getUserVar[code]&text_size=128&y_align=middle&x_align=center]
+  $setUserVar[code;$randomString[5]]
+  $onlyIf[$getServerVar[verify]oN;]
+  `})
 
+  bot.command({
+    name: "setup",
+    code: `
+    $awaitMessages[$authorID;30s;everything;tsp2;Command has been cancelled]
+    $sendMessage[**Which Category Do you want to make For Ticket System.
+    Provide the Category ID. 
+    This Command will be cancelled after** \`30 seconds\`.;no]
+    $onlyPerms[admin;Only Users with \`ADMIN\` perms can use this{delete:10s}]
+    $suppressErrors[]`
+   })
+    
+   bot.awaitedCommand({
+    name: "tsp2",
+    code: `
+   **✅ Setup ticket is complete**
+    $setServerVar[ticketchannel;$message]
+    $onlyIf[$channelExists[$message]==true;Provided Category Doesn't Exist{delete:10s}]
+    $onlyIf[$isNumber[$message]==true;Please provide Category ID{delete:10s}]`
+   })
+    
+   bot.command({
+    name: "ticket",
+    code: `
+   $newTicket[ticket-$username[$authorID];{title:Ticket opened!}{description:Hello, <@$authorID>. Here is your ticket!:tickets: Please give the information about your problem or feedback. 
+   Thanks in advance for being patient}{footer:Use close to close your ticket};$getServerVar[ticketchannel];no;<@$authorID>, I failed to create your ticket! Try again]
+   $sendMessage[Ticket Successfully opened! Hello, <@$authorID>. Go to **$toLowercase[#$username$discriminator]** to describe your issue!;Something went wrong]`
+   })
+    
+   bot.command({
+    name: "close",
+    code: `
+   $closeTicket[This is not a ticket]
+   $onlyIf[$checkContains[$channelName;ticket]==true;This command can only be used in tickets{delete:10s}]
+   $suppressErrors`
+   })
+   
+bot.command({
+name:"giveaway",
+code:`$editmessage[$get[e];{author:🎉 GIVEAWAY (ENDED) 🎉:}{thumbnail:$servericon}{title:$get[prize]}{description:**Hosted By#COLON#** <@$authorid>\n**Winner:** <@$get[winner]>\n**Ended** <t:$truncate[$divide[$get[endstamp];1000]]:R>\n\n**$get[participated]** Users had joined this giveaway}{footer:Ended at:}{timestamp:$get[endstamp]}{color:BLUE}]
+$sendmessage[Congratulations <@$get[winner]>! You won **$get[prize]**;no]
+$onlyif[$getmessagevar[ended]==false;]
+$onlyif[$get[winner]!=;No winner decided due to lack of participation]
+$setmessagevar[ended;true;$get[e]]
+$let[winner;$randomtext[$joinsplittext[;]]]
+$removetextsplitelement[$gettextsplitlength]
+$textsplit[$getmessagevar[joinedusers;$get[e]];@]
+$let[participated;$getmessagevar[joined;$get[e]]]
+$wait[$get[time]]
+$setmessagevar[endstamp;$get[endstamp];$get[e]]
+$setmessagevar[hoster;$authorid;$get[e]]
+$setmessagevar[prize;$get[prize];$get[e]]
+$let[e;$apimessage[$channelid;;{author:🎉 GIVEAWAY 🎉:}{thumbnail:$servericon}{title:$get[prize]}{description:**Hosted By#COLON#** <@$authorid>\n**Nº Winners:** 1\n**Ends** <t:$truncate[$divide[$get[endstamp];1000]]:R>\n\n**No one** has joined this giveaway}{footer:Ends at:}{timestamp:$get[endstamp]}{color:BLUE};{actionRow:🎊 Join 🎊,2,3,join:🔁 Reroll 🔁,2,1,reroll:🔚 End 🔚,2,4,end};;yes]]
+$let[endstamp;$sum[$datestamp;$ms[$get[time]]]]
+$let[prize;$messageslice[1]]
+$onlyif[$ms[$get[time]]!=undefined;Invalid time provided]
+$let[time;$message[1]]
+$onlyif[$message[2]!=;Enter a time and a prize]`})
+bot.onInteractionCreate()
+bot.interactionCommand({
+name:"join",
+prototype:"button",
+code:`$editmessage[$get[msg];{author:🎉 GIVEAWAY 🎉:}{thumbnail:$servericon}{title:$get[prize]}{description:**Hosted By#COLON#** <@$get[host]>\n**Nº Winners:** 1\n**Ends** <t:$truncate[$divide[$get[endstamp];1000]]:R>\n\n**$get[participated]** Users have participated in this giveaway.}{footer:Ends at:}{timestamp:$get[endstamp]}{color:BLUE}]
+$setmessagevar[joinedusers;$getmessagevar[joinedusers;$get[msg]]$authorid@;$get[msg]]
+$setmessagevar[joined;$get[participated];$get[msg]]
+$onlyif[$get[condition]==false;]
+$interactionreply[$replacetext[$replacetext[$replacetext[$get[condition];false;Joined the giveaway];true;You have already joined the giveaway];ended;The giveaway ended];;;64]
+$let[condition;$replacetext[$replacetext[$getmessagevar[ended;$get[msg]];true;ended];false;$get[condition]]]
+$let[condition;$checkcontains[$getmessagevar[joinedusers;$interactiondata[message.id]];$authorid]]
+$let[participated;$sum[$getmessagevar[joined;$get[msg]];1];$get[msg]]
+$let[host;$getmessagevar[hoster;$get[msg]]]
+$let[endstamp;$getmessagevar[endstamp;$get[msg]]]
+$let[prize;$getmessagevar[prize;$get[msg]]]
+$let[msg;$interactiondata[message.id]]`})
+bot.interactionCommand({
+name:"reroll",
+prototype:"button",
+code:`$editmessage[$get[e];{author:🎉 GIVEAWAY (REROLLED) 🎉:}{thumbnail:$servericon}{title:$get[prize]}{description:**Hosted By#COLON#** <@$authorid>\n**Winner After Reroll:** <@$get[winner]>\n**Ended** <t:$truncate[$divide[$get[endstamp];1000]]:R>\n\n**$get[participated]** Users had joined this giveaway}{footer:Ended at:}{timestamp:$get[endstamp]}{color:BLUE}]
+$sendmessage[Congratulations <@$get[winner]>! You won the reroll of **$get[prize]**;no]
+$onlyif[$get[winner]!=;No winner decided due to lack of participation]
+$setmessagevar[ended;true;$get[e]]
+$let[winner;$randomtext[$joinsplittext[;]]]
+$removetextsplitelement[$gettextsplitlength]
+$textsplit[$getmessagevar[joinedusers;$get[e]];@]
+$let[participated;$getmessagevar[joined;$get[e]]]
+$let[e;$get[msg]]
+$onlyif[$get[condition]==perform;]
+$interactionreply[$replacetext[$replacetext[$replacetext[$get[condition];perform;Rerolled the giveaway];true;This giveaway has not ended yet];false;You do not have enough perms];;;64]
+$let[condition;$replacetext[$replacetext[$getmessagevar[ended;$get[msg]];true;$replacetext[$replacetext[$get[condition];true;perform];false;false]];false;$get[condition]]]
+$let[condition;$hasperms[$authorid;manageserver]]
+$let[host;$getmessagevar[hoster;$get[msg]]]
+$let[endstamp;$getmessagevar[endstamp;$get[msg]]]
+$let[prize;$getmessagevar[prize;$get[msg]]]
+$let[msg;$interactiondata[message.id]]`})
+bot.interactionCommand({
+name:"end",
+prototype:"button",
+code:`$editmessage[$get[e];{author:🎉 GIVEAWAY (FORCE ENDED) 🎉:}{thumbnail:$servericon}{title:$get[prize]}{description:**Hosted By#COLON#** <@$authorid>\n**Winner After Force End:** <@$get[winner]>\n**Ended** <t:$truncate[$divide[$get[endstamp];1000]]:R>\n\n**$get[participated]** Users had joined this giveaway}{footer:Ended at:}{timestamp:$get[endstamp]}{color:BLUE}]
+$sendmessage[Congratulations <@$get[winner]>! You won the giveaway(force ended) of **$get[prize]**;no]
+$onlyif[$get[winner]!=;No winner decided due to lack of participation]
+$setmessagevar[ended;true;$get[e]]
+$let[winner;$randomtext[$joinsplittext[;]]]
+$removetextsplitelement[$gettextsplitlength]
+$textsplit[$getmessagevar[joinedusers;$get[e]];@]
+$let[participated;$getmessagevar[joined;$get[e]]]
+$let[e;$get[msg]]
+$onlyif[$get[condition]==perform;]
+$interactionreply[$replacetext[$replacetext[$replacetext[$get[condition];perform;Ended the giveaway];true;This giveaway has already ended];false;You do not have enough perms];;;64]
+$let[condition;$replacetext[$replacetext[$getmessagevar[ended;$get[msg]];false;$replacetext[$replacetext[$get[condition];true;perform];false;false]];true;$get[condition]]]
+$let[condition;$hasperms[$authorid;manageserver]]
+$let[host;$getmessagevar[hoster;$get[msg]]]
+$let[endstamp;$getmessagevar[endstamp;$get[msg]]]
+$let[prize;$getmessagevar[prize;$get[msg]]]
+$let[msg;$interactiondata[message.id]]`})
 
 
   
@@ -260,8 +384,8 @@ guess: "0",
 msg: "0",
     yes: "✅",
     join: "",
-    up: ".+",
-    prefix: ".+",
+    up: ">",
+    prefix: ">",
     wtitle: "",
   wmsg: "",
   wimg: "",
@@ -284,7 +408,7 @@ levelling:"true",
   level_roles:"",
   level_order:"",
   exp:"0",
-  level_card:"https://media.discordapp.net/attachments/901046126671691816/901047335671459881/Photo_1633692466619.jpg?width=473&height=473",
+  level_card:"https://images-ext-2.discordapp.net/external/0Xv4kCUKHD1-XuITg1pfJKpexx0WNSDycImJsgMyMZg/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/901046126671691816/901047335671459881/Photo_1633692466619.jpg",
   level_msges:"",
   level_morder:"",
   req:"100",
@@ -305,7 +429,53 @@ antilink: "false",
     giveawayisfinished: "false",
     giveawayisgiveaway: "false",
     testid1: "",
-    premium: "false"
+    premium: "false",
+    money:"0",//Wallet
+  bank:"0",//Bank
+  work_msges:"",//Possible work messages
+  work_amounts:"",//Possible work amounts
+  work_cd:"10m",//Cooldown for work
+  symb:"<:economy:898404177955401759>",//Money symbol
+  bs:"<:economy:898404177955401759>",//Bank symbol
+  sb:"0",//Starting Bal
+  sbd:"false",//Starting Claimed or no
+  rs:"false",//Random spawns
+  ra:"",//Spawn amounts
+  rc:"",//Spawn blacklisted channels	
+  e:"false",//Economy Enabled Or no
+  bc:"1000000",//Maximum bank capacity
+  cf:"0",//Cock fight chances
+  c:"0",//Chicken count
+  cc:"0",//Chicken Cost
+  gc:"0",//Max gamble cost for RPS, Roulette and CF
+  ru:"",//Blacklisted economy users
+   afk_roles:"",//AFK needed roles
+  r:"",//Reason for AFK
+  time:"",//Time for AFK
+  afk_pings:"0",//Pings count in AFK
+  afk_mentions:"",//Mentions by which user in AFK
+  //Bot Logs
+  bl:"",//Bot Logs channel
+   afk: "",
+  EnglishOnly: "off",
+  welcomeBg: "",
+  welcomeChannel: "",
+welcomeMsg: "",
+verify: "on",
+verifchannel: "900721610313584650",
+verifrole: "900429109933535292",
+cbw: "",
+  ticketchannel: "",
+    endstamp:"0",
+prefix:"w",
+hoster:"",
+prize:"",
+joined:"0",
+joinedusers:"",
+ended:"false",
+      item:"heh",//Item names
+     roles: "heh",
+      names:"heh",//Role shop messages
 });
 
 
